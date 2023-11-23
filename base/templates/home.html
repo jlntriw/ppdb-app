@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  PPDB DM
+{% endblock %}
+
+{% block content %}
+
+
+
+  <h1 class="py-4 px-4 text-2xl font-bold">Daftar Calon Siswa Baru {{tahun}}/{{tahun|add:1}}</h1>
+
+  <span id="loader" class="loader loader-circle loader-dots hidden"></span>
+
+<!-- Pencarian -->
+  <div class="py-4 px-4">
+    <form method="GET" action="{% url 'daftar-siswa' %}">
+      <div class="flex">
+        <input type="text" name="q" value="{{q.value|default:''}}" placeholder="Cari siswa..." value="{{ query }}" class="input input-bordered  md:w-auto input-sm md:input-md">
+        <button type="submit" class="btn btn-accent ml-2 btn-sm md:btn-md">Cari</button>
+        <a href="{% url 'export-excel' %}" class="btn btn-primary ml-2 btn-sm md:btn-md">download</a>
+       
+      
+      </div>
+    </form>
+  </div>
+
+  <!-- Tabel Siswa -->
+<div class="h-[100vh]">
+  <div class="overflow-x-auto px-4 ">
+    <table class="table table-zebra table-sm md:table-lg shadow-2xl rounded-1  border-b-2 rounded-lg bg-base-200   ">
+      <thead class="bg-[#132048] text-[#F5E8B7] table-pin-rows ">
+        <tr>
+          <th scope="col" class="text-center ">No Pendaftaran</th>
+          <th scope="col" class="text-center">Nama</th>
+          <th scope="col" class="text-center">NISN</th>
+          <th scope="col" class="text-center">NIK</th>
+          <th scope="col" class="text-center">Asal Sekolah</th>
+          <th scope="col" class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for x in page %}
+          <tr class="hover">
+            <td class="text-center border-1 border-black ">{{ x.noPendaftaran }}</td>
+            <td class="text-center">{% if  user.is_authenticated   %} <a href="{% url "detail-siswa" x.pk%}">{{ x.nama }}</a>{% else %} {{x.nama}}{% endif %}  </td>
+            <td class="text-center">{{ x.nisn }}</td>
+            <td class="text-center">{{ x.nik }}</td>
+            <td class="text-center">{{ x.asal_sekolah }}</td>
+            <td class="text-center  ">
+              <div class="flex justify-center">
+                {% if user.is_authenticated %}
+                <a href="{% url "edit-siswa" x.pk %}">
+                  <i class="fas fa-edit px-2"></i> <!-- Ikon edit dari Font Awesome -->
+                </a>
+                <a href="{% url 'delete-siswa' x.pk %}" >
+                  <i class="fas fa-trash-alt"></i> <!-- Ikon delete dari Font Awesome -->
+                </a>
+              {% endif %}
+              </div>
+            </td>
+            
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+ {% if page.paginator.num_pages > 1 %}
+ <div class="pagination px-8 py-2">
+  <span class="step-links">
+    {% if page.has_previous %}
+      <a href="?page=1" class="join-item btn">First</a>
+      <a href="?page={{ page.previous_page_number }}" class="join-item btn">Previous</a>
+    {% endif %}
+
+    {% for i in page.paginator.page_range %}
+      <a href="?page={{ i }}" class="join-item btn {% if i == page.number %}btn-active{% endif %}">{{ i }}</a>
+    {% endfor %}
+
+    {% if page.has_next %}
+      <a href="?page={{ page.next_page_number }}" class="join-item btn">Next</a>
+      <a href="?page={{ page.paginator.num_pages }}" class="join-item btn">Last</a>
+    {% endif %}
+  </span>
+</div>
+ {% endif %}
+
+
+
+</div>
+
+<script>
+  // Fungsi untuk memantau perubahan pada elemen select tahun
+  document.getElementById('tahun').addEventListener('change', function() {
+      // Ambil nilai tahun yang dipilih
+      var selectedTahun = this.value;
+
+      // Buat URL dengan parameter tahun yang dipilih
+      var url = '{% url "daftar-siswa" %}?tahun=' + selectedTahun;
+
+      // Redirect ke URL baru
+      window.location.href = url;
+  });
+
+    // Tampilkan loader saat halaman dimuat
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("loader").classList.remove("hidden");
+    });
+  
+    // Sembunyikan loader setelah data siap
+    window.addEventListener("load", function () {
+      document.getElementById("loader").classList.add("hidden");
+    });
+</script>
+
+{% endblock %}
+

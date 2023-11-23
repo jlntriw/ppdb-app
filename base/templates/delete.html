@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Konfirmasi Penghapusan Siswa
+{% endblock %}
+
+{% block content %}
+ 
+<div class="h-[100vh] flex items-center justify-center">
+   <div class="card w-96 lg:card-side shadow-xl">
+   <div class="card-body items-center text-center">
+
+    <h1 class="py-4 px-4 text-2xl font- card-title">Konfirmasi Penghapusan Siswa</h1>
+
+    <p>Anda yakin ingin menghapus siswa dengan No. Pendaftaran: {{ siswa.noPendaftaran }} dan Nama: {{ siswa.nama }}?</p>
+  
+    <form method="post" class="card-actions justify-end ">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-ghos text-red-800">Ya, Hapus</button>
+      <a href="{% url 'daftar-siswa' %}" class="btn btn-ghost">Batal</a>
+    </form>
+
+   </div>
+   </div>
+
+
+</div>
+
+
+{% endblock %}

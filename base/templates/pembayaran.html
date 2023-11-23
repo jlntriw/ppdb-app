@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Input Rekap Pembayaran untuk Siswa: {{ siswa.nama }}
+{% endblock %}
+
+{% block content %}
+  <div class="min-h-[100vh]">
+    <h1 class="py-4 px-4 text-2xl font-bold">Input Rekap Pembayaran untuk Siswa: {{ siswa.nama }}</h1>
+
+  <div class="max-w-md mx-auto p-4 bg-white rounded-lg shadow-xl ">
+    <form method="post" action="{% url 'input-rekap-pembayaran' siswa.pk %}">
+      {% csrf_token %}
+
+      <div class="mb-4">
+        <label for="{{ form.tanggal_rekap.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">Tanggal Pembayaran:</label>
+        <input type="date" name="{{ form.tanggal_rekap.name }}" id="{{ form.tanggal_rekap.id_for_label }}" value="{{ form.tanggal_rekap.value|default:'' }}" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500" placeholder="Tanggal Rekap" required />
+      </div>
+
+      <div class="mb-4">
+        <label for="{{ form.total_pembayaran.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">Jumlah Pembayaran (IDR):</label>
+        <input type="number"  name="{{ form.total_pembayaran.name }}" id="{{ form.total_pembayaran.id_for_label }}" value="{{ form.total_pembayaran.value|default:'' }}" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500" placeholder="Total Pembayaran (IDR)" required />
+      </div>
+      <div class="mb-4">
+        <label for="{{ form.keterangan.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">Keterangan:</label>
+        <input type="text" name="{{ form.keterangan.name }}" id="{{ form.keterangan.id_for_label }}" value="{{ form.keterangan.value|default:'' }}" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500" placeholder="masukan keterangan" required />
+      </div>
+
+      <div class="mb-6">
+        <button type="submit" class="btn btn-wide btn-secondary w-full text-secondary hover:text-white">Input Rekap Pembayaran</button>
+      </div>
+    </form>
+  </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,78 @@
+
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}
+  Detail Siswa: {{ siswa.nama }}
+{% endblock %}
+
+{% block content %}
+ <div class="">
+  
+
+    
+      
+
+            
+       <div class="flex">
+            <div class="stat mb-4 ">
+            <div class="stat-title">Nama Siswa</div>
+            <div class="stat-value">{{siswa.nama}}</div>
+        </div>
+        <div class="stat">
+            <div class="stat-title">No Pendaftaran</div>
+            <div class="stat-value">{{siswa.noPendaftaran}}</div>
+        </div>
+    </div>
+
+<div class="flex">
+        <div class="stat">
+            <div class="stat-title">NIK</div>
+            <div class="stat-value">{{siswa.nik}}</div>
+        </div>
+        <div class="stat">
+            <div class="stat-title">NISN</div>
+            <div class="stat-value">{{siswa.nisn}}</div>
+        </div>
+</div>
+       
+
+
+   
+
+        <a href="{% url 'input-rekap-pembayaran' siswa.pk %}" class="btn btn-outline btn-primary mt-4">Input Rekap Pembayaran</a>
+
+  <table class="table bg-base-200 shadow-xl mt-4 mb-4">
+    <thead>
+        <tr>
+            <th class="border w-8 text-center">No</th>
+            <th class="border w-32 text-center">tanggal</th>
+            <th class="border w-32 text-center">Pembayaran</th>
+            <th class="border w-48 text-center">Keterangan</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for rekap in rekap_pembayaran %}
+        <tr class="hover">
+            <td class="border text-center">{{forloop.counter}}</td>
+            <td class="border text-center">{{rekap.tanggal_rekap}}</td>
+            <td class="border text-center">Rp. {{rekap.total_pembayaran |intcomma|intword}}</td>
+            <td class="border text-center">{{rekap.keterangan}}</td>
+        </tr>
+        
+        {% endfor %}
+    </tbody>
+  </table>
+  <div class="text-right mt-4">
+    <strong>Total Pembayaran:</strong>{% load humanize %} Rp. {{ total_pembayaran |intcomma|intword }}
+  </div>
+  <div class="text-right mt-4">
+    <strong>Biaya Administrasi Sekolah:</strong>{% load humanize %} Rp. {{ settings.total_pembayaran |intcomma|intword }}
+  </div>
+  <div class="text-right mt-4">
+    <strong>Kekurangan Pembayaran:</strong>{% load humanize %} Rp. {{ kekurangan_pembayaran |intcomma|intword }}
+  </div>
+  
+
+ </div>
+{% endblock %}

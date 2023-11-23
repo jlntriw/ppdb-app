@@ -1,0 +1,167 @@
+<!-- edit_siswa.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}
+  Pendaftaran Siwa
+{% endblock %}
+
+{% block content %}
+  <h1 class="py-4 px-4 text-2xl flex justify-center items-center">Pendaftaran Siswa</h1>
+
+
+ <div class="flex justify-center items-center">
+  <div class="px-5 w-full md:w-1/2 border-1 shadow-2xl h-full ">
+    {% if error_message %}
+    <div class="alert alert-error mb-4 mt-8">
+      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+      <span>No Pendaftaran/NIK/NISN mungkin sudah terdaftar</span>
+    </div>{% endif %}
+    <form method="post" class="form-control gap-2 p-2" action="{% url 'pendaftaran' %}">
+      {% csrf_token %}
+
+      <!-- No Pendaftaran -->
+      <label for="{{ form.noPendaftaran.id_for_label }}">No Pendaftaran:</label>
+      <input class="input input-bordered " type="text" name="{{ form.noPendaftaran.name }}" id="{{ form.noPendaftaran.id_for_label }}" value="{{ form.noPendaftaran.value|default:'' }}" placeholder="Masukkan No Pendaftaran" />
+      {% if form.errors.noPendaftaran %}
+        <div class="text-red-500">{{ form.errors.noPendaftaran }}</div>
+      {% endif %}
+
+      <!-- Nama -->
+      <label for="{{ form.nama.id_for_label }}">Nama:</label>
+      <input class="input input-bordered" type="text" name="{{ form.nama.name }}" id="{{ form.nama.id_for_label }}" value="{{ form.nama.value|default:'' }}" placeholder="Masukkan Nama" />
+      {% if form.errors.nama %}
+        <div class="text-red-500">{{ form.errors.nama }}</div>
+      {% endif %}
+
+      <!-- NIK -->
+      <label for="{{ form.nik.id_for_label }}">NIK:</label>
+      <input type="text" name="{{ form.nik.name }}" id="{{ form.nik.id_for_label }}" value="{{ form.nik.value|default:'' }}" class="input input-bordered" placeholder="Masukkan NIK" />
+      {% if form.errors.nik %}
+        <div class="text-red-500">{{ form.errors.nik }}</div>
+      {% endif %}
+
+      <!-- NISN -->
+      <label for="{{ form.nisn.id_for_label }}">NISN:</label>
+      <input type="text" name="{{ form.nisn.name }}" id="{{ form.nisn.id_for_label }}" value="{{ form.nisn.value|default:'' }}" class="input input-bordered" placeholder="Masukkan NISN" />
+      {% if form.errors.nisn %}
+        <div class="text-red-500">{{ form.errors.nisn }}</div>
+      {% endif %}
+    
+        <!-- Tempat Lahir -->
+      <label for="{{ form.tempat_lahir.id_for_label }}">Tempat Lahir:</label>
+      <input type="text" name="{{ form.tempat_lahir.name }}" id="{{ form.tempat_lahir.id_for_label }}" value="{{ form.tempat_lahir.value|default:'' }}" class="input input-bordered" placeholder="Masukkan Tempat Lahir" />
+      {% if form.errors.tempat_lahir %}
+        <div class="text-red-500">{{ form.errors.tempat_lahir }}</div>
+      {% endif %}
+
+      <!-- Tanggal Lahir -->
+      <label for="{{ form.tanggal_lahir.id_for_label }}">Tanggal Lahir:</label>
+      <input type="date" name="{{ form.tanggal_lahir.name }}" id="{{ form.tanggal_lahir.id_for_label }}" value="{{ form.tanggal_lahir.value|default:'' }}" class="input input-bordered" placeholder="Masukkan Tanggal Lahir" />
+      {% if form.errors.tanggal_lahir %}
+        <div class="text-red-500">{{ form.errors.tanggal_lahir }}</div>
+      {% endif %}
+
+      <!-- Alamat -->
+      <label for="{{ form.alamat.id_for_label }}">Alamat:</label>
+      <input type="text" name="{{ form.alamat.name }}" id="{{ form.alamat.id_for_label }}" value="{{ form.alamat.value|default:'' }}" class="input input-bordered" placeholder="Masukkan Alamat" />
+      {% if form.errors.alamat %}
+        <div class="text-red-500">{{ form.errors.alamat }}</div>
+      {% endif %}
+
+      <!-- Jenis Kelamin -->
+        <label>Jenis Kelamin:</label>
+          <div class="flex items-center space-x-2">
+                <input type="radio" name="{{ form.jenis_kelamin.name }}" id="{{ form.jenis_kelamin.id_for_label }}_laki-laki" value="Laki-laki" {% if form.jenis_kelamin.value == "Laki-laki" %}checked{% endif %} class="input input-bordered" />
+                  <label for="{{ form.jenis_kelamin.id_for_label }}_laki-laki">Laki-laki</label>
+  
+                <input type="radio" name="{{ form.jenis_kelamin.name }}" id="{{ form.jenis_kelamin.id_for_label }}_perempuan" value="Perempuan" {% if form.jenis_kelamin.value == "Perempuan" %}checked{% endif %} class="input input-bordered" />
+                <label for="{{ form.jenis_kelamin.id_for_label }}_perempuan">Perempuan</label>
+                    </div>
+                  {% if form.errors.jenis_kelamin %}
+                          <div class="text-red-500">{{ form.errors.jenis_kelamin }}</div>
+                {% endif %}
+
+
+
+      <!-- Email -->
+      <label for="{{ form.email.id_for_label }}">Email:</label>
+      <input type="email" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}" value="{{ form.email.value|default:'' }}" class="input input-bordered" placeholder="Masukkan Email" />
+      {% if form.errors.email %}
+        <div class="text-red-500">{{ form.errors.email }}</div>
+      {% endif %}
+
+      <!-- Nomor Telepon -->
+      <label for="{{ form.nomor_telepon.id_for_label }}">Nomor Telepon:</label>
+      <input type="text" name="{{ form.nomor_telepon.name }}" id="{{ form.nomor_telepon.id_for_label }}" value="{{ form.nomor_telepon.value|default:'' }}" class="input input-bordered" placeholder="Masukkan Nomor Telepon" />
+      {% if form.errors.nomor_telepon %}
+        <div class="text-red-500">{{ form.errors.nomor_telepon }}</div>
+      {% endif %}
+
+      <!-- Nama Ayah -->
+<label for="{{ form.namaAyah.id_for_label }}">Nama Ayah:</label>
+<input type="text" name="{{ form.namaAyah.name }}" id="{{ form.namaAyah.id_for_label }}" value="{{ form.namaAyah.value|default:'' }}" class="input input-bordered" placeholder="Masukkan Nama Ayah" />
+{% if form.errors.namaAyah %}
+  <div class="text-red-500">{{ form.errors.namaAyah }}</div>
+{% endif %}
+
+<!-- Pekerjaan Ayah -->
+<label for="{{ form.pekerjaanAyah.id_for_label }}">Pekerjaan Ayah:</label>
+<input type="text" name="{{ form.pekerjaanAyah.name }}" id="{{ form.pekerjaanAyah.id_for_label }}" value="{{ form.pekerjaanAyah.value|default:'' }}" class="input input-bordered" placeholder="Masukkan Pekerjaan Ayah" />
+{% if form.errors.pekerjaanAyah %}
+  <div class="text-red-500">{{ form.errors.pekerjaanAyah }}</div>
+{% endif %}
+
+<!-- NIK Ayah -->
+<label for="{{ form.nikAyah.id_for_label }}">NIK Ayah:</label>
+<input type="text" name="{{ form.nikAyah.name }}" id="{{ form.nikAyah.id_for_label }}" value="{{ form.nikAyah.value|default:'' }}" class="input input-bordered" placeholder="Masukkan NIK Ayah" />
+{% if form.errors.nikAyah %}
+  <div class="text-red-500">{{ form.errors.nikAyah }}</div>
+{% endif %}
+
+<!-- Nama Ibu -->
+<label for="{{ form.namaIbu.id_for_label }}">Nama Ibu:</label>
+<input type="text" name="{{ form.namaIbu.name }}" id="{{ form.namaIbu.id_for_label }}" value="{{ form.namaIbu.value|default:'' }}" class="input input-bordered" placeholder="Masukkan Nama Ibu" />
+{% if form.errors.namaIbu %}
+  <div class="text-red-500">{{ form.errors.namaIbu }}</div>
+{% endif %}
+
+<!-- Pekerjaan Ibu -->
+<label for="{{ form.pekerjaanIbu.id_for_label }}">Pekerjaan Ibu:</label>
+<input type="text" name="{{ form.pekerjaanIbu.name }}" id="{{ form.pekerjaanIbu.id_for_label }}" value="{{ form.pekerjaanIbu.value|default:'' }}" class="input input-bordered" placeholder="Masukkan Pekerjaan Ibu" />
+{% if form.errors.pekerjaanIbu %}
+  <div class="text-red-500">{{ form.errors.pekerjaanIbu }}</div>
+{% endif %}
+
+<!-- NIK Ibu -->
+<label for="{{ form.nikIbu.id_for_label }}">NIK Ibu:</label>
+<input type="text" name="{{ form.nikIbu.name }}" id="{{ form.nikIbu.id_for_label }}" value="{{ form.nikIbu.value|default:'' }}" class="input input-bordered" placeholder="Masukkan NIK Ayah" />
+{% if form.errors.nikIbu %}
+  <div class="text-red-500">{{ form.errors.nikIbu }}</div>
+{% endif %}
+
+<!-- No. KIP -->
+<label for="{{ form.noKip.id_for_label }}">No. KIP:</label>
+<input type="text" name="{{ form.noKip.name }}" id="{{ form.noKip.id_for_label }}" value="{{ form.noKip.value|default:'' }}" class="input input-bordered" placeholder="Masukkan No. KIP" />
+{% if form.errors.noKip %}
+  <div class="text-red-500">{{ form.errors.noKip }}</div>
+{% endif %}
+
+<!-- No. PKH -->
+<label for="{{ form.noPkh.id_for_label }}">No. PKH:</label>
+<input type="text" name="{{ form.noPkh.name }}" id="{{ form.noPkh.id_for_label }}" value="{{ form.noPkh.value|default:'' }}" class="input input-bordered" placeholder="Masukkan No. PKH" />
+{% if form.errors.noPkh %}
+  <div class="text-red-500">{{ form.errors.noPkh }}</div>
+{% endif %}
+
+      <div class="mb-6 py-4">
+        <button type="submit" class="btn btn-outline btn-success btn-block">Daftar</button>
+      </div>
+    </form>
+   
+  </div>
+</div>
+ </div>
+  
+
+{% endblock %}

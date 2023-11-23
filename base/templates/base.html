@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.2/dist/full.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-... (checksum) ..." crossorigin="anonymous">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>
+      {% block title %}
+        PPDB
+      {% endblock %}
+    </title>
+  </head>
+  <body class="bg-base-200" style="font-family: 'Roboto', sans-serif;">
+    <div class="navbar bg-accent-focus text-white shadow-xl fixed top-0 left-0 right-0 z-20 mb-10">
+      <div class="navbar-start">
+        <div class="dropdown">
+          <label tabindex="0" class="btn btn-ghost lg:hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+            </svg>
+          </label>
+          <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow rounded-box w-52 bg-[#113946]">
+            <li>
+              <a href="{% url 'daftar-siswa' %}">Home</a>
+            </li>
+            {% if user.is_authenticated %}
+              <li>
+                <a href="{% url 'pendaftaran' %}">Pendaftaran</a>
+              </li>
+              <li>
+                <a href="{% url 'rekap-pembayaran' %}">Pembayaran</a>
+              </li>
+              <li>
+                <a href="{% url 'user-logout' %}">Logout</a>
+              </li>
+            {% else %}
+              <li>
+                <a href="{% url 'user-login' %}">Login</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+        <a href="{% url 'daftar-siswa' %}" class="btn btn-ghost normal-case text-xl px-10">PPDB DM</a>
+      </div>
+      <div class="navbar-end px-10 hidden lg:flex">
+        <ul class="menu menu-horizontal px-1">
+          <li>
+            <a class="text-base font-bold" href="{% url 'daftar-siswa' %}">Home</a>
+          </li>
+          
+          {% if user.is_authenticated %}
+            <li>
+              <a class="text-base font-bold" href="{% url 'pendaftaran' %}">Pendaftaran</a>
+            </li>
+            <li>
+              <a class="text-base font-bold"  href="{% url 'rekap-pembayaran' %}">Pembayaran</a>
+            </li>
+            <li>
+              <a  class="text-base font-bold" href="{% url 'user-logout' %}">Logout</a>
+            </li>
+          {% else %}
+            <li>
+              <a class="text-base font-bold" href="{% url 'user-login' %}">Login</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="container mx-auto py-24 px-4 min-h-[100vh]">
+      {% block content %}
+
+      {% endblock %}
+    </div>
+
+    <footer class="footer footer-center p-4 bg-accent-focus z-20 shadow-xl  text-white">
+      <aside>
+        <p>Copyright © 2023 - SMP DM</p>
+        <p>Powered by Django</p>
+      </aside>
+    </footer>
+  </body>
+</html>

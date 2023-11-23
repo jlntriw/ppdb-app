@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}
+  Rekap Pembayaran Anak
+{% endblock %}
+
+{% block content %}
+  <h1 class="py-4 px-4 text-2xl font-bold">Rekap Pembayaran Anak</h1>
+
+  <a class="btn btn-info mb-2 " href="{% url 'export_rekap_pembayaran_to_excel' %}">Download Excel</a>
+
+  <table class="table border shadow-xl">
+    <thead>
+      <tr class="bg-[#a5b8ee] text-base font-semibold">
+        <th class="border text-center">No_</th>
+        <th class="border text-center">Nama Anak</th>
+        <th class="border text-center">Total Pembayaran (IDR)</th>
+        <th class="border text-center">Keterangan</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for siswa in rekap_pembayaran %}
+      <tr class="hover:text-accent">
+        <td class="border text-center">{{ siswa.noPendaftaran }}</td>
+        <td class="border text-center">{% if  user.is_authenticated   %} <a href="{% url "detail-siswa" siswa.pk%}">{{ siswa.nama }}</a>{% else %} {{siswa.nama}}{% endif %} </td>
+        <td class="border text-center"> {% if siswa.total_pembayaran %}Rp. {{ siswa.total_pembayaran|intcomma|intword }} {% else %} - {% endif %}</td>
+        <td class="border text-center">-</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
